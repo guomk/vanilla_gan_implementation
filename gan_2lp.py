@@ -5,6 +5,8 @@ import matplotlib as plt
 import matplotlib.gridspec as gridspec
 import os
 
+os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+
 def xavier_init(size):
     in_dim = size[0]
     xavier_stddev = 1. / tf.sqrt(in_dim / 2.)
@@ -35,7 +37,7 @@ theta_G = [G_W1, G_W2, G_b1, G_b2]
 # Note that we are using the same network for both the discriminator and generator
 
 def discriminator(x):
-    D_h1 = tf.nn.relu(tf.matmul(x, D_W1), + D_b1)
+    D_h1 = tf.nn.relu(tf.matmul(x, D_W1) + D_b1)
     D_logit = tf.matmul(D_h1, G_W2) + D_b2
     D_prob = tf.nn.sigmoid(D_logit)  # The vector of raw (non-normalized) predictions that a classification model generates, which is ordinarily then passed to a normalization function.
 
